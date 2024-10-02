@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="wrapper">
+        <h2>BMI Calculator</h2>
+        <form method="POST">
+            <div class="field">
+                <label for="name">
+                    <i class="fa-solid fa-user"></i>
+                    Name:&nbsp;&nbsp;
+                </label>
+                <input type="text" name="name" id="name" placeholder="John" required>
+            </div>
+            <div class="field">
+                <label for="surname">
+                    <i class="fa-solid fa-user"></i>
+                    Surname:&nbsp;&nbsp;
+                </label>
+                <input type="text" name="surname" id="surname" placeholder="Doe" required>
+            </div>
+            <div class="field">
+                <label for="age">
+                    <i class="fa-solid fa-hashtag"></i>
+                    Age:&nbsp;&nbsp;
+                </label>
+                <input type="text" name="age" id="age" placeholder="25" required>
+            </div>
+            <div class="field">
+                <label for="gender">
+                    <i class="fa-solid fa-venus-mars"></i>
+                    Gender:&nbsp;&nbsp;
+                </label>
+                <label for="male"><input type="radio" name="gender" id="male" value="male" checked> Male</label>
+                <label for="female"><input type="radio" name="gender" id="female" value="female"> Female</label>
+            </div>
+            <div class="field">
+                <label for="height">
+                    <i class="fa-solid fa-ruler-vertical"></i>
+                    Height (cm):&nbsp;&nbsp;
+                </label>
+                <input type="text" name="height" id="height" placeholder="180" required>
+            </div>
+            <div class="field">
+                <label for="weight">
+                    <i class="fa-solid fa-weight-scale"></i>
+                    Weight (kg):&nbsp;&nbsp;
+                </label>
+                <input type="text" name="weight" id="weight" placeholder="70" required>
+            </div>
+            <button type="submit">
+                <i class="fa-solid fa-play"></i> Calculate BMI
+            </button>
+        </form>
+
+        {% if BMI %}
+            <div id="result">
+                <h3>Your BMI is: {{ BMI }}</h3>
+                <p>You are in the <strong>{{ category }}</strong> category.</p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

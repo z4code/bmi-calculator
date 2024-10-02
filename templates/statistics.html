@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+	<div class="wrapper">
+        <h2>BMI Statistics</h2>
+
+        {% if mean_bmi is not none %}
+        <div class="statistics-section">
+            <h3>General Statistics</h3>
+            <p><strong>Mean BMI:</strong> {{ mean_bmi }}</p>
+            <p><strong>Median BMI:</strong> {{ median_bmi }}</p>
+            <p><strong>Minimum BMI:</strong> {{ min_bmi }}</p>
+            <p><strong>Maximum BMI:</strong> {{ max_bmi }}</p>
+        </div>
+
+        <div class="category-section">
+            <h3>BMI Categories</h3>
+            <p><strong>Underweight:</strong> {{ categories['Underweight'] }}</p>
+            <p><strong>Normal weight:</strong> {{ categories['Normal weight'] }}</p>
+            <p><strong>Overweight:</strong> {{ categories['Overweight'] }}</p>
+            <p><strong>Obesity:</strong> {{ categories['Obesity'] }}</p>
+        </div>
+        {% else %}
+        <p>No BMI data available yet. Please submit data first.</p>
+        {% endif %}
+
+        <a href="/" class="button"><i class="fa-solid fa-arrow-left"></i> Back to BMI Calculator</a>
+    </div>
+{% endblock %}

@@ -2,6 +2,7 @@
 
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+import statistics
 
 app = Flask(__name__)
 
@@ -61,6 +62,36 @@ def index():
 		db.session.commit()
 
 	return render_template('index.html', BMI=BMI, category=category)
+
+# Route for BMI statistics page.
+@app.route('/statistics')
+def bmi_statistics():
+	users = UserBMI.query.all()
+
+	if users:
+
+		# Extract BMI values.
+		BMI_values = [user.bmi for user in users]
+
+		# Calculate statistics.
+		mean_BMI = statistics.mean(BMI_values)
+		median_BMI = statistics.median(BMI_values)
+		min_BMI = min(BMI_values)
+		max_BMI = max(BMI_values)
+
+		# Count categories.
+		categories = {
+			'Underweight': len([BMI for BMI in BMI_values if BMI < 18.5]),
+			'Normal weight': len([BMI for BMI in BMI_values if 18.5 <= BMI <= 24.5]),
+			'Overweight': len([BMI for BMI in BMI_values if 25 <= BMI <= 29.9]),
+			'Obese': len([BMI for BMI in BMI_values if BMI >= 30]),
+		}
+	else:
+		mean_BMI, median_BMI, min_BMI, max_BMI = None
+		categories = {}
+
+	return render_template('statistics.html', median_BMI=median_BMI, mean_BMI=mean_BMI, min_BMI=min_BMI,
+		max_BMI=max_BMI, categories=categories)
 
 if __name__ == '__main__':
 	app.run(debug=True)

@@ -3,6 +3,7 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 import statistics
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -22,6 +23,7 @@ class UserBMI(db.Model):
 	weight = db.Column(db.Float, nullable=False)
 	bmi = db.Column(db.Float, nullable=False)
 	category = db.Column(db.String(20), nullable=False)
+	year = db.Column(db.Integer, nullable=False) # New column sorting the year.
 
 # Initialize the database.
 with app.app_context():
@@ -57,7 +59,7 @@ def index():
 		# Save to the database.
 		new_BMI = UserBMI(name=name, surname=surname,
 			age=age, gender=gender, height=height * 100, weight=weight,
-			bmi=BMI, category=category)
+			bmi=BMI, category=category, year=datetime.now().year)
 		db.session.add(new_BMI)
 		db.session.commit()
 
@@ -79,7 +81,7 @@ def bmi_statistics():
 		min_BMI = min(BMI_values)
 		max_BMI = max(BMI_values)
 
-		# Count categories.
+		# Count the number of users in each BMI categoty.
 		categories = {
 			'Underweight': len([BMI for BMI in BMI_values if BMI < 18.5]),
 			'Normal weight': len([BMI for BMI in BMI_values if 18.5 <= BMI <= 24.5]),
